@@ -1,7 +1,7 @@
 inherit rubygem
 
 NAME="ruby-psych"
-VERSION=2.0.6
+VERSION=2.0.13
 RELEASE=1
 CATEGORY="Ruby"
 SUMMARY="Ruby YAML parser module"
