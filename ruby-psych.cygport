@@ -1,7 +1,7 @@
 inherit rubygem
 
 NAME="ruby-psych"
-VERSION=2.0.13
+VERSION=2.2.4
 RELEASE=1
 CATEGORY="Ruby"
 SUMMARY="Ruby YAML parser module"
@@ -11,5 +11,23 @@ Psych also knows how to serialize and de-serialize most Ruby objects to and
 from the YAML format."
 
 PKG_NAMES="${NAME} ${NAME}-doc"
-ruby_psych_CONTENTS=${RUBYGEM_EXTDIR#/}" "${RUBYGEM_INSTDIR#/}" "${RUBYGEM_SPEC#/}
+ruby_psych_CONTENTS="
+	${RUBY_ARCH#/}
+	${RUBY_LIB#/}
+	${RUBYGEM_EXTDIR#/}
+	${RUBYGEM_INSTDIR#/}
+	${RUBYGEM_SPEC#/}
+"
 ruby_psych_doc_CONTENTS=${RUBYGEM_DOCDIR#/}
+
+src_install() {
+	cd ${S}
+	rubygem_install
+
+	# This is required (wrapped) by 'yaml'
+	dodir ${RUBY_ARCH}
+	dosym ${RUBYGEM_EXTDIR}/psych.so ${RUBY_ARCH}
+	dodir ${RUBY_LIB}
+	dosym ${RUBYGEM_INSTDIR}/lib/psych.rb ${RUBY_LIB}
+	dosym ${RUBYGEM_INSTDIR}/lib/psych ${RUBY_LIB}
+}
